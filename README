@@ -7,7 +7,9 @@ SSL log in PVE
 cd /usr/src/
 git clone https://github.com/shauno8/it87.git
 cd it87
-sh autorun_install.sh
+sh it8784_autorun_install.sh #Super I/O DID is 0x8784
+#sh it8785_autorun_install.sh #Super I/O DID is 0x8785
+#sh it8786_autorun_install.sh #Super I/O DID is 0x8786
 reboot
 ---done.
 
@@ -183,6 +185,10 @@ Supported chips:
     Prefix: 'it8783'
     Addresses scanned: from Super I/O config space (8 I/O ports)
     Datasheet: Not publicly available
+  * IT8784E
+    Prefix: 'it8784'
+    Addresses scanned: from Super I/O config space (8 I/O ports)
+    Datasheet: Not publicly available
   * IT8786E
     Prefix: 'it8786'
     Addresses scanned: from Super I/O config space (8 I/O ports)
@@ -244,7 +250,7 @@ Module Parameters
   each read. Default is 0. On some boards the battery voltage is provided
   by either the battery or the onboard power supply. Only the first reading
   at power on will be the actual battery voltage (which the chip does
-  automatically). On other boards the battery voltage is always fed to
+  matically). On other boards the battery voltage is always fed to
   the chip so can be read at any time. Excessive reading may decrease
   battery life but no information is given in the datasheet.
 
@@ -398,7 +404,7 @@ startup, consult lm_sensors's /etc/sensors.conf. (4 = thermistor;
 Fan speed control
 -----------------
 
-The fan speed control features are limited to manual PWM mode. Automatic
+The fan speed control features are limited to manual PWM mode. matic
 "Smart Guardian" mode control handling is only implemented for older chips
 (see below.) However if you want to go for "manual mode" just write 1 to
 pwmN_enable.
@@ -410,10 +416,10 @@ used to drive all fan outputs, which is why pwm2_freq and pwm3_freq are
 read-only.
 
 
-Automatic fan speed control (old interface)
+matic fan speed control (old interface)
 -------------------------------------------
 
-The driver supports the old interface to automatic fan speed control
+The driver supports the old interface to matic fan speed control
 which is implemented by IT8705F chips up to revision F and IT8712F
 chips up to revision G.
 
@@ -424,16 +430,16 @@ freely chosen. The temperature of all 4 trip points can be freely chosen.
 Additionally, trip point 1 has an hysteresis temperature attached, to
 prevent fast switching between fan on and off.
 
-The chip automatically computes the PWM output value based on the input
+The chip matically computes the PWM output value based on the input
 temperature, based on this simple rule: if the temperature value is
 between trip point N and trip point N+1 then the PWM output value is
-the one of trip point N. The automatic control mode is less flexible
+the one of trip point N. The matic control mode is less flexible
 than the manual control mode, but it reacts faster, is more robust and
 doesn't use CPU cycles.
 
-Trip points must be set properly before switching to automatic fan speed
+Trip points must be set properly before switching to matic fan speed
 control mode. The driver will perform basic integrity checks before
-actually switching to automatic control mode.
+actually switching to matic control mode.
 
 
 Temperature offset attributes
