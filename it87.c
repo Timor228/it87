@@ -39,6 +39,7 @@
  *            IT8781F  Super I/O chip w/LPC interface
  *            IT8782F  Super I/O chip w/LPC interface
  *            IT8783E/F Super I/O chip w/LPC interface
+ *	      IT8784E  Super I/O chip w/LPC interface
  *            IT8786E  Super I/O chip w/LPC interface
  *            IT8790E  Super I/O chip w/LPC interface
  *            IT8792E  Super I/O chip w/LPC interface
@@ -86,7 +87,7 @@
 
 enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
 	     it8736, it8738,
-	     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
+	     it8771, it8772, it8781, it8782, it8783, it8784, it8786, it8790,
 	     it8792, it8603, it8606, it8607, it8613, it8620, it8622, it8625,
 	     it8628, it8655, it8665, it8686 };
 
@@ -190,6 +191,8 @@ static inline void superio_exit(int ioreg, bool doexit)
 #define IT8781F_DEVID 0x8781
 #define IT8782F_DEVID 0x8782
 #define IT8783E_DEVID 0x8783
+#define IT8784E_DEVID 0x8784
+#define IT8785E_DEVID 0x8785
 #define IT8786E_DEVID 0x8786
 #define IT8790E_DEVID 0x8790
 #define IT8603E_DEVID 0x8603
@@ -564,12 +567,23 @@ static const struct it87_devices it87_devices[] = {
 		.num_temp_map = 3,
 		.old_peci_mask = 0x4,
 	},
+	[it8784] = {
+		.name = "it8784",
+		.model = "IT8784E",
+		.features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
+                  | FEAT_TEMP_PECI | FEAT_IN7_INTERNAL
+                  | FEAT_PWM_FREQ2 | FEAT_FANCTL_ONOFF | FEAT_SIX_FANS,
+                .num_temp_limit = 3,
+                .num_temp_offset = 3,
+                .num_temp_map = 3,
+                .peci_mask = 0x07,
+	},
 	[it8786] = {
 		.name = "it8786",
 		.model = "IT8786E",
 		.features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
 		  | FEAT_TEMP_PECI | FEAT_IN7_INTERNAL
-		  | FEAT_PWM_FREQ2 | FEAT_FANCTL_ONOFF,
+		  | FEAT_PWM_FREQ2 | FEAT_FANCTL_ONOFF | FEAT_SIX_FANS,
 		.num_temp_limit = 3,
 		.num_temp_offset = 3,
 		.num_temp_map = 3,
@@ -3042,6 +3056,10 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 		break;
 	case IT8783E_DEVID:
 		sio_data->type = it8783;
+		break;
+	case IT8784E_DEVID:
+	case IT8785E_DEVID:
+		sio_data->type = it8784;
 		break;
 	case IT8786E_DEVID:
 		sio_data->type = it8786;

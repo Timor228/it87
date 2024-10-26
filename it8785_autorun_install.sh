@@ -51,7 +51,7 @@ fi
 cp it87.ko $TARGET_PATH/
 echo "DEPMOD $(uname -r)"
 depmod `uname -r`
-echo "load module IT8613E $module"
+echo "load module IT8784E $module"
 modprobe $module
 
 is_update_initramfs=n
@@ -77,7 +77,7 @@ if [ "$is_update_initramfs" = "y" ]; then
 	fi
 fi
 
-echo options it87 ignore_resource_conflict=1 force_id=0x8613 > /etc/modprobe.d/it87.conf
+echo options it87 ignore_resource_conflict=1 force_id=0x8785 > /etc/modprobe.d/it87.conf
 
 echo it87 >> /etc/modules
 
